@@ -24,6 +24,7 @@ void merging(int a[],int l,int m,int r) {
     }
 
     int i=0,j=0,k=l;
+    //cout << "l = " << l << endl;
 
     while(i<len1 && j<len2) {
         if(left[i] <= right[j]) {
@@ -71,8 +72,8 @@ int main() {
         cin>> a[i];
      }
 
-     cout << "The unsorted array: " << endl;
-     print(n,a);
+    //  cout << "The unsorted array: " << endl;
+    //  print(n,a);
 
      mergesort(a,0,n-1);
 

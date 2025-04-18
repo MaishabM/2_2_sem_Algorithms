@@ -11,12 +11,12 @@ void FractionKnapsack(int n,double weight[],double value[],int Max) {
     for(int i=0; i<n; i++) {
         int idx = ratio[i].second;
 
-        if(TotWeight+weight[idx] <= Max) {
+        if(weight[idx] <= Max) {
             TotVal += value[idx];
-            TotWeight += weight[idx];
+            Max -= weight[idx];
         }
         else{
-            TotVal += (value[idx]/weight[idx]) * (Max-TotWeight);
+            TotVal += (value[idx]/weight[idx]) * Max;
             break;
         }
     }

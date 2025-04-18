@@ -6,8 +6,8 @@ using namespace std;
 // Palindrome subsequence output
 
 void solve(){
-    cout << "Input a string: " << endl;
-    string s1,s2; 
+    string s1,s2;
+    cout << "Input a string: " << endl; 
     cin>>s1;
     s2 = s1;
     reverse(s2.begin(),s2.end());

@@ -1,52 +1,47 @@
 #include<bits/stdc++.h>
 using namespace std;
+vector<vector<int>> graph;
+vector<bool> visited;
+vector<int> dist;
 
-void DFS(vector<vector<int>> &adj, int source) {
-    int size = adj.size();
-    stack<int> st;
-    vector<bool> visited(size,false);
-    vector<int> parent(size,-1);
+void DFS(int node,int d) {
+    visited[node] = true;
+    dist[node] = d;
+    cout << node << " ";
 
-    st.push(source);
-    visited[source] = true;
-
-    cout << "DFS traversal: ";
-    while(st.empty() == false) {
-        int node = st.top();
-        st.pop();
-        cout << node << " ";
-
-        for(auto neighbour : adj[node]) {
-            if(visited[neighbour] == true) continue;
-
-            visited[neighbour] = true;
-            st.push(neighbour);
-            parent[neighbour] = node;
+        for(auto adj : graph[node]) {
+            if(!visited[adj]) {
+                visited[adj] = true;
+                DFS(adj,d+1);
+            }
         }
-        }
-
-        cout << "\nThe parent of each node: " << endl;
-        for(int i = 0; i<size; i++) {
-            cout << "Node " << i << " parent : " << parent[i] << endl;
-    }
-}
-
-void addedge(vector<vector<int>> &adj, int s,int p) {
-    adj[s].push_back(p);
-    adj[p].push_back(s);
 }
 
 int main() {
-    int numOfVertex = 6;
-    vector<vector<int>> adj(numOfVertex);
+    int v,e,m,n,source;
+    cout << "Enter the number of vertices: ";
+    cin >> v;
+    cout << "Enter the number of edges: ";
+    cin >> e;
 
-    vector<vector<int>> graph = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}};
+    graph.assign(v,vector<int>());
+    visited.assign(v,false);
+    dist.assign(v,-1);
 
-    for(auto &g : graph) {
-        addedge(adj,g[0],g[1]);
+    cout << "Enter the edges: " << endl;
+    for(int i=0; i<e; i++) {
+        cin >> m >> n;
+
+        graph[m].push_back(n);  //directed graph
     }
 
-    int source = 0;
-    cout << "The graph traversal from source: " << source << endl;
-    DFS(adj,source);
+    cout << "Enter the source: ";
+    cin >> source;
+    cout << "DFS Traversal: " << endl;
+    DFS(source,0);
+
+    cout << "\nDistance from source: " << endl;
+    for(int i=0; i<v; i++) {
+        cout << i << " distance -> " << dist[i] << endl;
+    }
 }

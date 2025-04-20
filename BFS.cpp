@@ -1,81 +1,57 @@
-#include <iostream>
-#include <bits/stdc++.h>
-
+#include<bits/stdc++.h>
 using namespace std;
+vector<bool> visited;
+vector<vector<int>> graph;
+vector<int> dist;
 
-vector<bool> v;
-vector<vector<int>> g;
-
-void bfsTraversal(int b)
-{
-    //Declare a queue to store all the nodes connected to b
+void BFS(int start) {
     queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    dist[start] = 0;
+    cout << "The BFS traversal: ";
 
-    //Insert b to queue
-    q.push(b);
+    while(!q.empty()) {
+        int current = q.front();
+        q.pop();
+        cout << current << " ";
 
-    //mark b as visited
-    v[b] = true;
-
-    cout << "\n\nThe BFS Traversal is:  ";
-
-    while (!q.empty())
-    {
-        int a = q.front();
-        q.pop(); //delete the first element form queue
-
-        for (auto j = g[a].begin(); j != g[a].end(); j++)
-        {
-            if (!v[*j])
-            {
-                v[*j] = true;
-                q.push(*j);
+        for(auto neighbour : graph[current]) {
+            if(!visited[neighbour]) {
+                visited[neighbour] = true;
+                q.push(neighbour);
+                dist[neighbour] = dist[current] + 1;
             }
         }
-        cout << a << "  ";
+    }
+    cout << "\nDistance from source: " << endl;
+    for(int i=0; i<dist.size(); i++) {
+        cout << i << " distance -> " << dist[i] << endl;
     }
 }
 
-void makeEdge(int a, int b)
-{
-    g[a].push_back(b); //an edge from a to b (directed graph)
-}
-
-int main()
-{
-    int n, e;
-
+int main() {
+    int v,e;
     cout << "Enter the number of vertices: ";
-
-    cin >> n;
-
-    cout << "\nEnter the number of edges: ";
-
+    cin >> v;
+    cout << "Enter the number of edges: ";
     cin >> e;
 
-    v.assign(n, false);
-    g.assign(n, vector<int>());
+    graph.assign(v,vector<int>());
+    visited.assign(v,false);
+    dist.assign(v,-1);
 
-    int a, b, i;
+    cout << "Enter the edges: " << endl;
+    for(int i=0; i<e; i++) {
+        int m,n;
+        cin >> m >> n;
 
-    cout << "Enter the edges with source and target vetex: \n";
-
-    for (i = 0; i < e; i++)
-    {
-        cin >> a >> b;
-        makeEdge(a, b);
+        graph[m].push_back(n);
+        graph[n].push_back(m);
     }
 
-    for (i = 0; i < n; i++)
-    {
-        //if the node i is unvisited
-        if (!v[i])
-        {
-            bfsTraversal(i);
-        }
-    }
-
-    cout << "\n\n\n";
-
-    return 0;
+    int source;
+    cout << "Select the root vertex: ";
+    cin >> source;
+    BFS(source);
 }

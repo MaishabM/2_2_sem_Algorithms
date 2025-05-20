@@ -24,9 +24,9 @@ void BFS(int start) {
             }
         }
     }
-    cout << "\nDistance from source: " << endl;
+    cout << "\nThe distance from source: " << endl;
     for(int i=0; i<dist.size(); i++) {
-        cout << i << " distance -> " << dist[i] << endl;
+        cout << start << " -> node " << i << ": " << dist[i] << endl;
     }
 }
 
